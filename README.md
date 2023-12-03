@@ -33,4 +33,3 @@ Please mount the log folder to container
 ```
 docker run -it --rm -v /home/ec2-user/s3fs:/app/logreader -p 8000:8000 zhaojiew/logreader:latest 
 ```
-

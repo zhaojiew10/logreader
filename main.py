@@ -17,7 +17,6 @@ class LogreaderHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         if self.request_version != 'HTTP/0.9':
             self._headers_buffer.append(b"\r\n")
-            print("not flush header")
         
     def do_GET(self):
         file_path = self.translate_path(self.path)
