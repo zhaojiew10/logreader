@@ -22,7 +22,7 @@ The server automatically extracts .gz files before serving them. If a requested 
 
 This server can use to read emr job log.
 
-And if you use this server with s3 mount-poiny, you will get better experience.
+And if you use this server with s3 mount-point, you will get better experience.
 
 The server will start running on http://localhost:8000 by default. You can change the port by modifying the PORT variable in the server.py file.
 
