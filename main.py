@@ -13,14 +13,14 @@ class LogreaderHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.directory = directory
         super().__init__(*args, **kwargs)
     
-    # Override parent method to change content-length
     def end_headers(self):
         if self.request_version != 'HTTP/0.9':
             self._headers_buffer.append(b"\r\n")
+            self._headers_buffer.pop(4)
+            self.flush_headers()
         
     def do_GET(self):
         file_path = self.translate_path(self.path)
-        # print("Check log of *===============", file_path, "*=====================")
         f = self.send_head()
         
         if f:
@@ -28,7 +28,6 @@ class LogreaderHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 if file_path.endswith('.gz'):
                     self.extract_gz_file(file_path,self.wfile)
                 else:
-                    self.flush_headers()
                     self.copyfile(f, self.wfile)
             except Exception as e:
                 print(e)
@@ -37,14 +36,6 @@ class LogreaderHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def extract_gz_file(self, file_path, f_out):
         with gzip.open(file_path, 'rb') as f_in:
-            self.send_header("Content-Length", len(f_in.read()))
-            # Remove the header content-length from the headers buffer
-            self._headers_buffer.pop(4)
-            # Flush the headers
-            self.flush_headers()
-            # Reset the file pointer
-            f_in.seek(0)
-            # Copy the file
             self.copyfile(f_in, f_out)
                 
     if not mimetypes.inited:
