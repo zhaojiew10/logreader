@@ -1,4 +1,4 @@
 FROM python:3.9.18-alpine3.18
-WORKDIR /app
-ADD ./ /app
-CMD ["python", "/app/main.py"]
+WORKDIR /app/logreader
+ADD ./main.py /app/main.py
+CMD ["python", "../main.py"]
